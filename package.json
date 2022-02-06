@@ -1,0 +1,27 @@
+{
+  "name": "silver-screen-backend",
+  "version": "1.0.0",
+  "description": "Backend api of silver screen - movie ticket booking app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aces-hackathon/silver-screen-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aces-hackathon/silver-screen-backend/issues"
+  },
+  "homepage": "https://github.com/aces-hackathon/silver-screen-backend#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.2.0",
+    "nodemon": "^2.0.15"
+  }
+}
