@@ -39,4 +39,19 @@ loginRouter.post('/', async (req, res) => {
     })
 })
 
+//Email/sms confirmation remaining
+// loginRouter('/forgot', (req, res) => {
+//     const body = req.body
+
+//     const user = await User.findOne({
+//         $or: [{ username: body.phone }, { email: body.email }]
+//     })
+
+//     if (!user) {
+//         return res.status(401).json({
+//             error: 'invalid username or password'
+//         })
+//     }
+// })
+
 module.exports = loginRouter
