@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const seatType = new mongoose.Schema({
+const seatTypeSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -17,8 +17,10 @@ const seatType = new mongoose.Schema({
     timestamps: true,
 })
 
-seatType.set('toJSON', (document, returnedObject) => {
+seatTypeSchema.set('toJSON', (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
 })
+
+module.exports = mongoose.model('SeatType', seatTypeSchema)
