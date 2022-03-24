@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
-const seatsAvailableSchema = new mongoose.Schema({
+const ticketSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
     show: {
         type: mongoose.Types.ObjectId,
         ref: 'Show',
@@ -11,22 +16,20 @@ const seatsAvailableSchema = new mongoose.Schema({
         ref: 'SeatType',
         required: true,
     },
-    total: {
+    seatCount: {
         type: Number,
         required: true,
     },
-    filled: {
+    Amount: {
         type: Number,
         required: true,
-    }
+    },
 }, {
     timestamps: true,
 })
 
-seatsAvailableSchema.set('toJSON', (document, returnedOBject) => {
+ticketSchema.set('toJSON', (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
 })
-
-module.exports = mongoose.model('SeatsAvailable', seatsAvailableSchema)

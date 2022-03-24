@@ -11,6 +11,7 @@ const seatTypeSchema = new mongoose.Schema({
     },
     theatre: {
         type: mongoose.Types.ObjectId,
+        ref: 'Theatre',
         required: true,
     },
 }, {
