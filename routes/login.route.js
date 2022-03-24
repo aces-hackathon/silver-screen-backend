@@ -54,4 +54,24 @@ loginRouter.post('/', async (req, res) => {
 //     }
 // })
 
+
+loginRouter('/forgot', (req, res) => {
+    const body = req.body
+    const hash = await bcrypt.hash(req.body.password, 10)
+
+    const user = await User.findOneAndUpdate({
+        $or: [{ username: body.phone }, { email: body.email }]
+    }, {
+        password: hash
+    })
+
+    if (!user) {
+        return res.status(401).json({
+            error: 'invalid username or password'
+        })
+    }
+
+    
+})
+
 module.exports = loginRouter

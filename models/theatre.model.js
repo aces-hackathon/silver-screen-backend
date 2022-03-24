@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
+const theatreSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     phone: {
         type: Number,
@@ -15,30 +15,32 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true,
     },
+    addressLine1: {
+        type: String,
+        required: true,
+    },
+    addressLine2: {
+        type: String,
+        required: true,
+    },
     city: {
         type: String,
+        required: true,
     },
     password: {
         type: String,
         required: true
     },
-    tickets: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Ticket',
-        },
-    ],
 }, {
-    timestamps: true
+    timestamps: true,
 })
 
-userSchema.set('toJSON', {
+theatreSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
         delete returnedObject.__v
-        delete returnedObject.password
     }
 })
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('Theatre', theatreSchema)
