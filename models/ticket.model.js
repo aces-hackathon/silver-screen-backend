@@ -33,3 +33,5 @@ ticketSchema.set('toJSON', (document, returnedObject) => {
     delete returnedObject._id
     delete returnedObject.__v
 })
+
+module.exports = mongoose.model('Ticket', ticketSchema)
