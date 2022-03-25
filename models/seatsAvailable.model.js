@@ -1,11 +1,6 @@
 const mongoose = require('mongoose')
 
 const seatsAvailableSchema = new mongoose.Schema({
-    show: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Show',
-        required: true,
-    },
     seatType: {
         type: mongoose.Types.ObjectId,
         ref: 'SeatType',
@@ -23,10 +18,12 @@ const seatsAvailableSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-seatsAvailableSchema.set('toJSON', (document, returnedOBject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
+seatsAvailableSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
 })
 
 module.exports = mongoose.model('SeatsAvailable', seatsAvailableSchema)

@@ -1,4 +1,5 @@
 const express = require('express')
+require('express-async-errors')
 const mongoose = require('mongoose')
 
 const config = require('./utils/config')
@@ -10,6 +11,7 @@ const userRouter = require('./routes/user.route')
 const loginRouter = require('./routes/login.route')
 const theatreRouter = require('./routes/theatre.route')
 const seatTypeRouter = require('./routes/seatType.route')
+const seatsAvailable = require('./routes/seatsAvailable.route')
 
 const app = express()
 
@@ -36,6 +38,7 @@ app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/theatres', theatreRouter)
 app.use('/api/seattypes', seatTypeRouter)
+app.use('/api/seatsavailable', seatsAvailable)
 
 app.use(middleware.unknownEndPoint)
 app.use(middleware.errorHandler)

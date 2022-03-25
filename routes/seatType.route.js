@@ -10,8 +10,7 @@ seatTypeRouter.post('/', async (req, res) => {
         theatre: mongoose.Types.ObjectId(req.body.theatre),
     })
 
-    const savedSeatType = await newSeatType
-        .save()
+    const savedSeatType = await newSeatType.save()
     res.json(savedSeatType.toJSON())
 })
 
@@ -28,11 +27,7 @@ seatTypeRouter.get('/:id', async (req, res) => {
         .findById(req.params.id)
         .populate('theatre')
 
-    if (!seatType) {
-        res.json(null)
-    } else {
-        res.json(seatType.toJSON())
-    }
+    res.json(seatType.toJSON())
 })
 
 seatTypeRouter.post('/:id', async (req, res) => {
