@@ -20,7 +20,10 @@ seatsAvailableRouter.post('/', async (req, res) => {
 seatsAvailableRouter.get('/', async (req, res) => {
     const seatsAvailable = await SeatsAvailable
         .find({})
-        .populate('seatType')
+        .populate({
+            path: 'seatType',
+            populate: { path: 'theatre' },
+        })
 
     res.json(seatsAvailable.map(u => u.toJSON()))
 })

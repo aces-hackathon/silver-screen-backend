@@ -28,10 +28,14 @@ const ticketSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-ticketSchema.set('toJSON', (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
+ticketSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+        delete returnedObject.createdAt
+        delete returnedObject.updatedAt
+    }
 })
 
 module.exports = mongoose.model('Ticket', ticketSchema)
