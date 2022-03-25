@@ -7,6 +7,7 @@ const logger = require('./utils/logger')
 
 const userRouter = require('./routes/user.route')
 const loginRouter = require('./routes/login.route')
+const theatreRouter = require('./routes/theatre.route')
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.get('/', (request, response) => {
 
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/theatres', theatreRouter)
 
 app.use(middleware.unknownEndPoint)
 app.use(middleware.errorHandler)

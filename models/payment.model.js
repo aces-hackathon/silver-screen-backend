@@ -12,7 +12,7 @@ paymentSchema = new mongoose.Schema({
     },
     status: {
         type: Boolean,
-    }
+    },
 }, {
     timestamps: true,
 })

@@ -55,7 +55,7 @@ loginRouter.post('/', async (req, res) => {
 // })
 
 
-loginRouter('/forgot', (req, res) => {
+loginRouter.post('/forgot', async (req, res) => {
     const body = req.body
     const hash = await bcrypt.hash(req.body.password, 10)
 
