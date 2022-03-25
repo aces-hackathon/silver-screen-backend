@@ -18,10 +18,12 @@ const seatTypeSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-seatTypeSchema.set('toJSON', (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
+seatTypeSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
 })
 
 module.exports = mongoose.model('SeatType', seatTypeSchema)

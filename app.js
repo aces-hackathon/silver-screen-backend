@@ -5,9 +5,11 @@ const config = require('./utils/config')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 
+//routers
 const userRouter = require('./routes/user.route')
 const loginRouter = require('./routes/login.route')
 const theatreRouter = require('./routes/theatre.route')
+const seatTypeRouter = require('./routes/seatType.route')
 
 const app = express()
 
@@ -29,9 +31,11 @@ app.get('/', (request, response) => {
     response.send('<p>Silver screen backend api</p>')
 })
 
+//routers
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/theatres', theatreRouter)
+app.use('/api/seattypes', seatTypeRouter)
 
 app.use(middleware.unknownEndPoint)
 app.use(middleware.errorHandler)
