@@ -13,6 +13,7 @@ const theatreRouter = require('./routes/theatre.route')
 const seatTypeRouter = require('./routes/seatType.route')
 const seatsAvailable = require('./routes/seatsAvailable.route')
 const showRouter = require('./routes/show.route')
+const ticketRouter = require('./routes/ticket.route')
 
 const app = express()
 
@@ -41,6 +42,7 @@ app.use('/api/theatres', theatreRouter)
 app.use('/api/seattypes', seatTypeRouter)
 app.use('/api/seatsavailable', seatsAvailable)
 app.use('/api/shows', showRouter)
+app.use('/api/tickets', ticketRouter)
 
 app.use(middleware.unknownEndPoint)
 app.use(middleware.errorHandler)
