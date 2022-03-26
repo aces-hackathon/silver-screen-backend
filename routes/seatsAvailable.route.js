@@ -1,4 +1,5 @@
 const seatsAvailableRouter = require('express').Router()
+const mongoose = require('mongoose')
 
 const SeatsAvailable = require('../models/seatsAvailable.model')
 
@@ -6,7 +7,7 @@ seatsAvailableRouter.post('/', async (req, res) => {
     const body = req.body
 
     const newSeatsAvailable = new SeatsAvailable({
-        seatType: body.seatType,
+        seatType: mongoose.Types.ObjectId(body.seatType),
         total: Number(body.total),
         filled: body.filled
             ? Number(body.filled)
@@ -14,7 +15,7 @@ seatsAvailableRouter.post('/', async (req, res) => {
     })
 
     const savedSeatsAvailable = await newSeatsAvailable.save()
-    res.json(newSeatsAvailable.toJSON())
+    res.json(savedSeatsAvailable.toJSON())
 })
 
 seatsAvailableRouter.get('/', async (req, res) => {
@@ -31,7 +32,10 @@ seatsAvailableRouter.get('/', async (req, res) => {
 seatsAvailableRouter.get('/:id', async (req, res) => {
     const seatsAvailable = await SeatsAvailable
         .findById(req.params.id)
-        .populate('seatType')
+        .populate({
+            path: 'seatType',
+            populate: { path: 'theatre' },
+        })
 
     res.json(seatsAvailable.toJSON())
 })
@@ -46,7 +50,10 @@ seatsAvailableRouter.post('/:id', async (req, res) => {
 
     const updatedSeatsAvailabe = await SeatsAvailable
         .findByIdAndUpdate(req.params.id, toUpdate)
-        .populate('seatType')
+        .populate({
+            path: 'seatType',
+            populate: { path: 'theatre' },
+        })
 
     res.json(updatedSeatsAvailabe)
 })
@@ -54,7 +61,10 @@ seatsAvailableRouter.post('/:id', async (req, res) => {
 seatsAvailableRouter.delete('/:id', async (req, res) => {
     const deletedSeatsAvailable = await SeatsAvailable
         .findByIdAndDelete(req.params.id)
-        .populate('seatType')
+        .populate({
+            path: 'seatType',
+            populate: { path: 'theatre' },
+        })
 
     res.json(deletedSeatsAvailable)
 })

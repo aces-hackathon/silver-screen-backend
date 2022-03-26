@@ -13,10 +13,6 @@ const showSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    ticketRate: {
-        type: Number,
-        required: true,
-    },
     isRunning: {
         type: Boolean
     },
