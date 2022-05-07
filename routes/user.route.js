@@ -1,6 +1,6 @@
 const userRouter = require('express').Router()
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
 
 const User = require('../models/user.model')
 const { getTokenFrom } = require('./reqHelper')
@@ -30,11 +30,11 @@ userRouter.get('/', async (req, res) => {
 userRouter.get('/:phone', async (req, res) => {
     const token = getTokenFrom(req)
 
-    const decodedToken = jwt.verify(token, process.env.SECRET)
+    // const decodedToken = jwt.verify(token, process.env.SECRET)
 
-    if (!token || !decodedToken) {
-        return res.status(401).json({ error: 'token missing or invalid' })
-    }
+    // if (!token || !decodedToken) {
+    //     return res.status(401).json({ error: 'token missing or invalid' })
+    // }
 
     const user = await User
         .findOne({ phone: req.params.phone })
@@ -47,11 +47,11 @@ userRouter.put('/', async (req, res) => {
     const body = req.body
     const token = getTokenFrom(req)
 
-    const decodedToken = jwt.verify(token, process.env.SECRET)
+    // const decodedToken = jwt.verify(token, process.env.SECRET)
 
-    if (!token || !decodedToken) {
-        return res.status(401).json({ error: 'token missing or invalid' })
-    }
+    // if (!token || !decodedToken) {
+    //     return res.status(401).json({ error: 'token missing or invalid' })
+    // }
 
     const toUpdate = {
         name: body.name,

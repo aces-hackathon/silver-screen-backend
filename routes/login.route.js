@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const loginRouter = require('express').Router()
 
@@ -11,6 +11,8 @@ loginRouter.post('/', async (req, res) => {
         $or: [{ username: body.phone }, { email: body.email }]
     })
 
+    console.log(user)
+
     const passwordCorrect = user === null
         ? false
         : await bcrypt.compare(body.password, user.password)
@@ -21,19 +23,18 @@ loginRouter.post('/', async (req, res) => {
         })
     }
 
-    const userForToken = {
-        username: user.phone,
-        id: user._id,
-    }
+    // const userForToken = {
+    //     username: user.phone,
+    //     id: user._id,
+    // }
 
-    const token = jwt.sign(
-        userForToken,
-        process.env.SECRET,
-        { expiresIn: 60*60*24 },   
-    )
+    // const token = jwt.sign(
+    //     userForToken,
+    //     process.env.SECRET,
+    //     { expiresIn: 60*60*24 },   
+    // )
     
     res.status(200).send({
-        token,
         name: user.name,
         phone: user.phone,
     })
