@@ -6,9 +6,10 @@ const User = require('../models/user.model')
 
 loginRouter.post('/', async (req, res) => {
     const body = req.body
+    console.log(body)
 
     const user = await User.findOne({
-        $or: [{ username: body.phone }, { email: body.email }]
+        $or: [{ phone: body.phone }, { email: body.email }]
     })
 
     console.log(user)
