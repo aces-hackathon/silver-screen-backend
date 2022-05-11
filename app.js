@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 require('express-async-errors')
 const mongoose = require('mongoose')
 
@@ -14,6 +15,7 @@ const seatTypeRouter = require('./routes/seatType.route')
 const seatsAvailable = require('./routes/seatsAvailable.route')
 const showRouter = require('./routes/show.route')
 const ticketRouter = require('./routes/ticket.route')
+const { populate } = require('./models/user.model')
 
 const app = express()
 
@@ -31,6 +33,9 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology
 app.use(express.json())
 app.use(middleware.requestLogger)
 
+app.use(cors({
+    origin: '*'
+}));
 app.get('/', (request, response) => {
     response.send('<p>Silver screen backend api</p>')
 })
