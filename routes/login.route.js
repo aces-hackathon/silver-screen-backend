@@ -3,10 +3,11 @@ const bcrypt = require('bcrypt')
 const loginRouter = require('express').Router()
 
 const User = require('../models/user.model')
+const Theatre = require('../models/theatre.model')
 
 loginRouter.post('/', async (req, res) => {
     const body = req.body
-    console.log(body)
+    // console.log(body)
 
     const user = await User.findOne({
         $or: [{ phone: body.phone }, { email: body.email }]
@@ -20,7 +21,7 @@ loginRouter.post('/', async (req, res) => {
 
     if (!(user && passwordCorrect)) {
         return res.status(401).json({
-            error: 'invalid username or password'
+            error: 'invalid email or password'
         })
     }
 
@@ -39,6 +40,30 @@ loginRouter.post('/', async (req, res) => {
         name: user.name,
         phone: user.phone,
         id: user.id,
+    })
+})
+
+loginRouter.post('/theatres', async (req, res) => {
+    const body = req.body
+
+    const theatre = await Theatre.findOne({
+        $or: [{ phone: body.phone }, { email: body.email }]
+    })
+
+    const passwordCorrect = theatre === null
+        ? false
+        : await bcrypt.compare(body.password, theatre.password)
+
+    if (!(theatre && passwordCorrect)) {
+        return res.status(401).json({
+            error: 'invalid email or password'
+        })
+    }
+
+    res.status(200).send({
+        name: theatre.name,
+        phone: theatre.phone,
+        id: theatre.id,
     })
 })
 
@@ -75,6 +100,23 @@ loginRouter.post('/forgot', async (req, res) => {
     }
 
     
+})
+
+loginRouter.post('/forgot-theatres', async (req, res) => {
+    const body = req.body
+    const hash = await bcrypt.hash(req.body.password, 10)
+
+    const theatre = await Theatre.findOneAndUpdate({
+        $or: [{ username: body.phone }, { email: body.email }]
+    }, {
+        password: hash
+    })
+
+    if (!theatre) {
+        return res.status(401).json({
+            error: 'invalid username or password'
+        })
+    }
 })
 
 module.exports = loginRouter
