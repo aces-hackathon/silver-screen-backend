@@ -38,6 +38,7 @@ loginRouter.post('/', async (req, res) => {
     res.status(200).send({
         name: user.name,
         phone: user.phone,
+        id: user.id,
     })
 })
 
