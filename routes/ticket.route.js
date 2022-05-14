@@ -2,6 +2,8 @@ ticketRouter = require('express').Router()
 const mongoose = require('mongoose')
 
 const Ticket = require('../models/ticket.model')
+const User = require('../models/user.model')
+const SeatsAvailable = require('../models/seatsAvailable.model')
 
 ticketRouter.post('/', async (req, res) => {
     const body = req.body
@@ -14,7 +16,29 @@ ticketRouter.post('/', async (req, res) => {
         amount: Number(body.amount),
     })
 
+    //Update seatAvailable
+    const updatedSeatsAvailable = await SeatsAvailable.findOne({
+        seatType: body.seatType
+    })
+
+    //Check if seats are available
+    if (!updatedSeatsAvailable || 
+        (updatedSeatsAvailable.total - updatedSeatsAvailable.filled) < body.seatCount) {
+            return res.status(401).json({
+                error: 'Seats not available'
+            })
+    }
+
+    updatedSeatsAvailable.filled += newTicket.seatCount
+    await updatedSeatsAvailable.save()
+
+    //Update user
     const savedTicket = await newTicket.save()
+
+    const updatedUser = await User.findById(savedTicket.user)
+    updatedUser.tickets.push(savedTicket.id)
+    await updatedUser.save()
+
     res.json(savedTicket)
 })
 
