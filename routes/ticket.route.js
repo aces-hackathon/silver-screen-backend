@@ -39,7 +39,7 @@ ticketRouter.post('/', async (req, res) => {
     updatedUser.tickets.push(savedTicket.id)
     await updatedUser.save()
 
-    res.json(savedTicket)
+    res.json(savedTicket.toJSON())
 })
 
 ticketRouter.get('/', async (req, res) => {
