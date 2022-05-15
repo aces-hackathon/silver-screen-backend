@@ -11,7 +11,9 @@ movieRouter.post('/', async (req, res) => {
         trailer: body.trailer,
         cast: body.cast,
         description: body.description,
-        rating: body.rating
+        rating: body.rating,
+        genre: body.genre,
+        language: body.language
     })
 
     const savedMovie = await newMovie.save()
@@ -23,6 +25,20 @@ movieRouter.get('/', async (req, res) => {
         .find({})
 
     res.json(movies.map(u => u.toJSON()))
+})
+
+movieRouter.get('/one', async (req, res) => {
+    const movie = await Movie.findOne({
+        name: req.body.name
+    })
+
+    if (!movie) {
+        return res.status(401).json({
+            error: 'Movie not found'
+        })
+    }
+
+    res.json({ movie })
 })
 
 module.exports = movieRouter

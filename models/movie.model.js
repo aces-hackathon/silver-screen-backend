@@ -26,6 +26,12 @@ movieSchema = new mongoose.Schema({
     },
     rating: {
         type: Number
+    },
+    genre: {
+        type: String
+    },
+    language: {
+        type: String
     }
 })
 
