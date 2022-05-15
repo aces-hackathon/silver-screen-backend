@@ -38,7 +38,7 @@ movieRouter.get('/one', async (req, res) => {
         })
     }
 
-    res.json({ movie })
+    res.json(movie.toJSON())
 })
 
 module.exports = movieRouter
