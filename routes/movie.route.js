@@ -27,7 +27,7 @@ movieRouter.get('/', async (req, res) => {
     res.json(movies.map(u => u.toJSON()))
 })
 
-movieRouter.get('/one', async (req, res) => {
+movieRouter.post('/one', async (req, res) => {
     const movie = await Movie.findOne({
         name: req.body.name
     })
