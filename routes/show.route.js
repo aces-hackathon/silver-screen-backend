@@ -4,6 +4,10 @@ const mongoose = require('mongoose')
 const Show = require('../models/show.model')
 const SeatsAvailable = require('../models/seatsAvailable.model')
 
+const waitPromise = async promises => {
+    return Promise.all(promises)
+}
+
 showRouter.post('/', async (req, res) => {
     const body = req.body
 
@@ -29,11 +33,20 @@ showRouter.get('/', async (req, res) => {
             path: 'seatsAvailable',
             // populate: {
             //     path: {
-            //         path: 'seatsAvailabeseatType',
-            //         populate: { path: 'theatre' },
+            //         path: 'seatType',
+            //         model: 'SeatType',
+            //         // populate: { path: 'theatre' },
             //     },
             // },
         })
+    
+
+        /*
+        seattypes array
+        rate
+        timing
+        theatre
+        */
 
     res.json(shows.map(u => u.toJSON()))
 })

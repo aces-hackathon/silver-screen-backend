@@ -88,7 +88,7 @@ loginRouter.post('/forgot', async (req, res) => {
     const hash = await bcrypt.hash(req.body.password, 10)
 
     const user = await User.findOneAndUpdate({
-        $or: [{ username: body.phone }, { email: body.email }]
+        $or: [{ phone: body.phone }, { email: body.email }]
     }, {
         password: hash
     })
@@ -99,7 +99,9 @@ loginRouter.post('/forgot', async (req, res) => {
         })
     }
 
-    
+    res.json({
+        message: 'Password Changed'
+    })
 })
 
 loginRouter.post('/forgot-theatres', async (req, res) => {
