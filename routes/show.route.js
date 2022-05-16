@@ -104,9 +104,9 @@ showRouter.get('/minimized', async (req, res) => {
                         id: obj.seatType ? obj.seatType.id : null,
                     }
                 }),
-            theatre: (show.seatsAvailable.length === 0 || !show.seatsAvailable.seatType)
+            theatre: (show.seatsAvailable.length === 0 || show.seatsAvailable[0].seatType == null || show.seatsAvailable[0].seatType.theatre == null)
                 ? null
-                : show.seatsAvailable.seatType.theatre
+                : show.seatsAvailable[0].seatType.theatre.id
             
         }
     })
