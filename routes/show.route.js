@@ -2,7 +2,8 @@ const showRouter = require('express').Router()
 const mongoose = require('mongoose')
 
 const Show = require('../models/show.model')
-const SeatsAvailable = require('../models/seatsAvailable.model')
+const SeatType = require('../models/seatType.model')
+const Theatre = require('../models/theatre.model')
 
 const waitPromise = async promises => {
     return Promise.all(promises)
@@ -39,7 +40,21 @@ showRouter.get('/', async (req, res) => {
             //     },
             // },
         })
-    
+
+    //Deep populate
+    for(let i=0; i<shows.length; i++){
+        for(j=0; j<shows[i].seatsAvailable.length; j++) {
+            shows[i].seatsAvailable[j].seatType = await SeatType
+                .findById(shows[i].seatsAvailable[j].seatType)
+
+            // console.log(shows[i].seatsAvailable.seatType)
+            if (shows[i].seatsAvailable[j].seatType !== null) {
+                console.log(shows[i].seatsAvailable[j].seatType.theatre)
+                shows[i].seatsAvailable[j].seatType.theatre = await Theatre
+                    .findById(shows[i].seatsAvailable[j].seatType.theatre)
+            }
+        }
+    }
 
         /*
         seattypes array
@@ -49,6 +64,54 @@ showRouter.get('/', async (req, res) => {
         */
 
     res.json(shows.map(u => u.toJSON()))
+})
+
+showRouter.get('/minimized', async (req, res) => {
+    const shows = await Show
+        .find({})
+        .populate({
+            path: 'seatsAvailable',
+        })
+
+    //Deep populate
+    for(let i=0; i<shows.length; i++){
+        for(j=0; j<shows[i].seatsAvailable.length; j++) {
+            shows[i].seatsAvailable[j].seatType = await SeatType
+                .findById(shows[i].seatsAvailable[j].seatType)
+
+            // console.log(shows[i].seatsAvailable.seatType)
+            if (shows[i].seatsAvailable[j].seatType !== null) {
+                console.log(shows[i].seatsAvailable[j].seatType.theatre)
+                shows[i].seatsAvailable[j].seatType.theatre = await Theatre
+                    .findById(shows[i].seatsAvailable[j].seatType.theatre)
+            }
+        }
+    }
+
+    mappedShows = shows.map(u => u.toJSON())
+    
+    const minimizedShows = mappedShows.map(show => {
+        return {
+            id: show.id,
+            movieName: show.movieName,
+            screenNo: show.screenNo,
+            seatType: show.seatsAvailable.length === 0
+                ? null
+                : show.seatsAvailable.map(obj => {
+                    return {
+                        name: obj.seatType ? obj.seatType.name : null,
+                        rate: obj.seatType ? obj.seatType.rate : null,
+                        id: obj.seatType ? obj.seatType.id : null,
+                    }
+                }),
+            theatre: (show.seatsAvailable.length === 0 || !show.seatsAvailable.seatType)
+                ? null
+                : show.seatsAvailable.seatType.theatre
+            
+        }
+    })
+
+    res.json(minimizedShows)
 })
 
 showRouter.get('/:id', async (req, res) => {

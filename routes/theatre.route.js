@@ -29,7 +29,20 @@ theatreRouter.get('/', async (req, res) => {
     res.json(theatres.map(u => u.toJSON()))
 })
 
-theatreRouter.get('/:phone', async (req, res) => {
+theatreRouter.get('/:id', async (req, res) => {
+    const theatre = await Theatre
+        .findById(req.params.id)
+
+    if (!theatre) {
+        return res.status(400).json({
+            error: 'No theatres found'
+        })
+    }
+
+    res.json(theatre.toJSON())
+})
+
+theatreRouter.get('/phone/:phone', async (req, res) => {
     // const token = getTokenFrom(req)
 
     // const decodedToken = jwt.verify(token, process.env.SECRET)
