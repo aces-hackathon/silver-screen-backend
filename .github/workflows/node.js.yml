@@ -3,6 +3,12 @@
 
 name: Node.js CI
 
+env:
+  PORT: ${{ secrets.PORT }}
+  SECRET: ${{ secrets.SECRET }}
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+  TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+
 on:
   push:
     branches: [ main ]
