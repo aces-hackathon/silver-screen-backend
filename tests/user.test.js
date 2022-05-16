@@ -4,7 +4,7 @@ const testEnv = require('./testEnv')
 const app = require('../app')
 const api = supertest(app)
 
-jest.setTimeout(30000)
+jest.setTimeout(40000)
 
 beforeEach(async () => {
     await testEnv.initUsers()
