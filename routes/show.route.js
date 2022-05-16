@@ -95,6 +95,7 @@ showRouter.get('/minimized', async (req, res) => {
             id: show.id,
             movieName: show.movieName,
             screenNo: show.screenNo,
+            timing: show.timing,
             seatType: show.seatsAvailable.length === 0
                 ? null
                 : show.seatsAvailable.map(obj => {
