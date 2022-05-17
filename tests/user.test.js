@@ -1,6 +1,7 @@
 const supertest = require('supertest')
 
 const testEnv = require('./testEnv')
+const initialValues = require('./initialValues')
 const testValues = require('./testValues')
 const app = require('../app')
 const api = supertest(app)
@@ -17,7 +18,7 @@ test('There is one user', async () => {
     expect(response.body).toHaveLength(1)
 })
 
-describe('User details tests', () => {
+describe('Create user tests', () => {
     test('Creates user when given valid details', async () => {
         const response = await api
             .post('/api/users')
@@ -34,10 +35,30 @@ describe('User details tests', () => {
         const response = await api
             .post('/api/users')
             .send(testValues.userData)
-
-        expect(response.status).toBe(500)
+            .expect(500)
     })
 });
+
+describe('Get user values tests', () => {
+    
+    test('Find all users', async () => {
+        const response = await api.get('/api/users')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    })
+
+    test('Find one user with phone', async () => {
+        console.log(`/api/users/${testValues.userData[0].phone}`)
+        const response = await api.get(`/api/users/${initialValues.userData[0].phone}`)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    })
+
+    test('Find one user fails with invalid phone value', async () => {
+        const response = await api.get(`/api/users/5555555555`)
+            .expect(400)
+    })
+})
 
 
 afterAll(() => {

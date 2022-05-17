@@ -39,6 +39,12 @@ userRouter.get('/:phone', async (req, res) => {
     const user = await User
         .findOne({ phone: req.params.phone })
 
+    if (!user) {
+        return res.status(400).json({
+            error: 'User not found'
+        })
+    }
+
     res.json(user.toJSON())
 })
 
