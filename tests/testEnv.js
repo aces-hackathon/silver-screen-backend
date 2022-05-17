@@ -18,8 +18,6 @@ const initUsers = async () => {
 
     hashedData = await hashUserPasswords(initialValues.userData)
 
-    console.log(hashedData)
-
     const userObjects = hashedData.map(user => new User(user))
     const savedDataPromises = userObjects.map(user => user.save())
 
