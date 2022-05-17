@@ -103,4 +103,10 @@ ticketRouter.delete('/:id', async (req, res) => {
     res.json(deletedTicket)
 })
 
+ticketRouter.delete('/', async (req, res) => {
+    await Ticket.deleteMany({})
+
+    res.json({ message: 'Deleted all tickets' })
+})
+
 module.exports = ticketRouter

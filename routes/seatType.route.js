@@ -53,4 +53,10 @@ seatTypeRouter.delete('/:id', async (req, res) => {
     res.json(deletedSeatType)
 })
 
+seatTypeRouter.delete('/', async (req, res) => {
+    await SeatType.deleteMany({})
+
+    res.json({ message: 'Deleted all seat types' })
+})
+
 module.exports = seatTypeRouter

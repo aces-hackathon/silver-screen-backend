@@ -151,4 +151,10 @@ showRouter.delete('/:id', async (req, res) => {
     res.json(deletedShow)
 })
 
+showRouter.delete('/', async (req, res) => {
+    await Show.deleteMany({})
+
+    res.json({ message: 'Deleted all shows' })
+})
+
 module.exports = showRouter
