@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
 const User = require('../models/user.model')
+const Theatre = require('../models/theatre.model')
 const initialValues = require('./initialValues')
 
 const hashUserPasswords = async initialUsers => {
@@ -24,6 +25,17 @@ const initUsers = async () => {
     await Promise.all(savedDataPromises)
 }
 
+const initTheatres = async () => {
+    await Theatre.deleteMany({})
+
+    hashedData = await hashUserPasswords(initialValues.theatreData)
+
+    const theatreObjects = hashedData.map(theatre => new Theatre(theatre))
+    const savedDataPromises = theatreObjects.map(theatre => theatre.save())
+
+    await Promise.all(savedDataPromises)
+}
+
 const creds = {
     phone: 1234567890,
     password: 'bala',
@@ -35,6 +47,7 @@ const closeConnection = () => {
 
 module.exports = {
     initUsers,
+    initTheatres,
     creds,
     closeConnection,
 }

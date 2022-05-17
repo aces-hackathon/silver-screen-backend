@@ -9,8 +9,21 @@ const userData = [
     },
 ]
 
+const theatreData = [
+    {
+        name: "Inox",
+        phone: 1234567890,
+        email: 'inox@inox.server.org',
+        addressLine1: '1st floor, Prozone mall',
+        addressLine2: 'Saravanampatti',
+        city: 'Coimbatore',
+        password: 'inox',
+    }
+]
+
 const initialValues = {
-    userData
+    userData,
+    theatreData
 }
 
 module.exports = initialValues

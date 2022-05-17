@@ -9,25 +9,25 @@ const api = supertest(app)
 jest.setTimeout(40000)
 
 beforeEach(async () => {
-    await testEnv.initUsers()
+    await testEnv.initTheatres()
 })
 
-test('There is one user', async () => {
-    const response = await api.get('/api/users')
+test('There is one theatre', async () => {
+    const response = await api.get('/api/theatres')
     
     expect(response.body).toHaveLength(1)
 })
 
-describe('Create user tests', () => {
-    test('Creates user when given valid details', async () => {
+describe('Create theatre tests', () => {
+    test('Creates theatre when given valid details', async () => {
         const response = await api
-            .post('/api/users')
-            .send(testValues.userData)
+            .post('/api/theatres')
+            .send(testValues.theatreData)
 
         expect(response.body.phone).toBe(testValues.userData.phone)
     })
 
-    test('Create user fails when given invalid details', async () => {
+    test('Create theatre fails when given invalid details', async () => {
         const invalidUser = {
             ...testValues.userData,
             phone: '',
@@ -39,26 +39,25 @@ describe('Create user tests', () => {
     })
 })
 
-describe('Get user values tests', () => {
+describe('Get theatre values tests', () => {
     
-    test('Find all users', async () => {
-        const response = await api.get('/api/users')
+    test('Find all theatre', async () => {
+        const response = await api.get('/api/theatres')
             .expect(200)
             .expect('Content-Type', /application\/json/)
     })
 
-    test('Find one user with phone', async () => {
-        const response = await api.get(`/api/users/${initialValues.userData[0].phone}`)
-            .expect(200)
+    test('Find one theatre with phone', async () => {
+        const response = await api.get(`/api/theatres/${initialValues.theatreData[0].phone}`)
+            .expect(400)
             .expect('Content-Type', /application\/json/)
     })
 
-    test('Find one user fails with invalid phone value', async () => {
-        const response = await api.get(`/api/users/5555555555`)
+    test('Find one theatre fails with invalid phone value', async () => {
+        const response = await api.get(`/api/theatres/5555555555`)
             .expect(400)
     })
 })
-
 
 afterAll(() => {
     testEnv.closeConnection()
