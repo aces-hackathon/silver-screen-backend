@@ -21,9 +21,15 @@ const theatreData = [
     }
 ]
 
+const seatTypeData = {
+    name: 'First Class',
+    rate: 120,
+}
+
 const initialValues = {
     userData,
-    theatreData
+    theatreData,
+    seatTypeData,
 }
 
 module.exports = initialValues

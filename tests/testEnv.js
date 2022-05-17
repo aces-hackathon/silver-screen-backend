@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 
 const User = require('../models/user.model')
 const Theatre = require('../models/theatre.model')
+const SeatType = require('../models/seatType.model')
 const initialValues = require('./initialValues')
 
 const hashUserPasswords = async initialUsers => {
@@ -36,6 +37,25 @@ const initTheatres = async () => {
     await Promise.all(savedDataPromises)
 }
 
+const initSeatTypes = async () => {
+    await SeatType.deleteMany({})
+
+    let theatres = await Theatre.find({})
+
+    if (theatres.length === 0) {
+        await initTheatres()
+        theatres = await Theatre.find({})
+    }
+
+    const seatTypeObject = new SeatType({
+        ...initialValues.seatTypeData,
+        theatre: theatres[0].id
+    })
+
+    const response =  await seatTypeObject.save()
+    return response
+}
+
 const creds = {
     phone: 1234567890,
     password: 'bala',
@@ -48,6 +68,7 @@ const closeConnection = () => {
 module.exports = {
     initUsers,
     initTheatres,
+    initSeatTypes,
     creds,
     closeConnection,
 }
